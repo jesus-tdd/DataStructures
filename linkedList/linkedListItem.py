@@ -8,6 +8,9 @@ class LinkedListItem:
     def hasNext(self):
         return self.next is not None
 
+    def hasPrev(self):
+        return self.prev is not None
+
 
     def __str__(self):
         return str(self.value)
