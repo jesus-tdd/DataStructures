@@ -80,6 +80,36 @@ class LinkedList:
         return current.value
 
 
+    # TODO =========================
+    def insert(self, index, item):
+        pass
+
+
+    def remove(self, item):
+        pass
+
+
+    def extend(self, iterable):
+        pass
+
+
+    def index(self, item, start=0, end=None):
+        pass
+
+
+    def count(self, item):
+        pass
+
+
+    def sort(self, key=None, reverse=False):
+        pass
+
+
+    def reverse(self):
+        pass
+    # TODO =========================
+
+
     def clear(self):
         self.__first = None
         self.__last = None
