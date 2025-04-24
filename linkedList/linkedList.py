@@ -110,11 +110,14 @@ class LinkedList:
 
     def sort(self, key=None, reverse=False):
         pass
+    # TODO =========================
 
 
     def reverse(self):
-        pass
-    # TODO =========================
+        items = [item for item in self.items(True)]
+        self.clear()
+        for item in items:
+            self.append(item)
 
 
     def clear(self):
@@ -155,5 +158,6 @@ if __name__ == "__main__":
     print(linked_list)
     linked_list.pop()
     print(linked_list)
-    print([item for item in linked_list.items(True)])
+    linked_list.reverse()
+    print(linked_list)
     print(len(linked_list))
