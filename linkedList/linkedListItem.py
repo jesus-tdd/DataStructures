@@ -4,5 +4,10 @@ class LinkedListItem:
         self.next = None
         self.prev = None
 
+
+    def hasNext(self):
+        return self.next is not None
+
+
     def __str__(self):
         return str(self.value)
