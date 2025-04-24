@@ -12,6 +12,19 @@ class LinkedList:
                 self.append(item)
 
 
+    def get(self, index):
+        if self.isEmpty():
+            raise IndexError("List is empty.")
+
+        if index >= len(self):
+            raise IndexError("Index out of bounds.")
+
+        current = self.__first
+        for i in range(index):
+            current = current.next
+        return current.value
+
+
     def items(self):
         if self.isEmpty():
             return
