@@ -1,3 +1,5 @@
+from ast import Index
+
 from linkedListItem import LinkedListItem as Item
 
 class LinkedList:
@@ -6,7 +8,8 @@ class LinkedList:
         self.__last = None
         self.__size = 0
         if len(items) > 0:
-            self.add(*items)
+            for item in items:
+                self.append(item)
 
 
     def items(self):
@@ -20,14 +23,8 @@ class LinkedList:
             current = current.next
 
 
-    def add(self, *items):
-        if len(items) > 1:
-            for item in items:
-                if not self.add(item):
-                    return False
-            return True
-
-        new_item = Item(*items)
+    def append(self, item):
+        new_item = Item(item)
         if self.isEmpty():
             self.__first = new_item
         else:
@@ -36,6 +33,38 @@ class LinkedList:
         self.__last = new_item
         self.__size += 1
         return True
+
+    def pop(self, index=None):
+        if self.isEmpty():
+            raise ValueError("List is empty.")
+
+        if index is None:
+            index = len(self)-1
+
+        if index >= len(self):
+            raise IndexError("Index out of bound.")
+
+        if index == 0:
+            current = self.__first
+            self.__first = self.__first.next
+            self.__first.prev = None
+            self.__size -= 1
+            return current.value
+
+        if index == len(self)-1:
+            current = self.__last
+            self.__last = self.__last.prev
+            self.__last.next = None
+            self.__size -= 1
+            return current.value
+
+        current = self.__first
+        for i in range(0, index):
+            current = current.next
+        current.prev.next = current.next
+        current.next.prev = current.prev
+        self.__size -= 1
+        return current.value
 
 
     def isEmpty(self):
@@ -57,4 +86,10 @@ class LinkedList:
         return string
 
 if __name__ == "__main__":
-    print(LinkedList(1, 2))
+    linked_list = LinkedList(1, 2, 3, 2, 7, 1)
+    print(linked_list)
+    linked_list.append(23)
+    print(linked_list)
+    linked_list.pop()
+    print(linked_list)
+    print(len(linked_list))
