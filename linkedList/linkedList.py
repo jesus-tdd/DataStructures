@@ -25,15 +25,22 @@ class LinkedList:
         return current.value
 
 
-    def items(self):
+    def items(self, reverse = False):
         if self.isEmpty():
             return
 
-        current = self.__first
-        yield current
-        while current.hasNext():
-            yield current.next
-            current = current.next
+        if not reverse:
+            current = self.__first
+            yield current.value
+            while current.hasNext():
+                yield current.next.value
+                current = current.next
+        else:
+            current = self.__last
+            yield current.value
+            while current.hasPrev():
+                yield current.prev.value
+                current = current.prev
 
 
     def append(self, item):
@@ -148,4 +155,5 @@ if __name__ == "__main__":
     print(linked_list)
     linked_list.pop()
     print(linked_list)
+    print([item for item in linked_list.items(True)])
     print(len(linked_list))
