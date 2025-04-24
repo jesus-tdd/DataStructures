@@ -36,7 +36,7 @@ class LinkedList:
 
     def pop(self, index=None):
         if self.isEmpty():
-            raise ValueError("List is empty.")
+            raise IndexError("List is empty.")
 
         if index is None:
             index = len(self)-1
@@ -65,6 +65,19 @@ class LinkedList:
         current.next.prev = current.prev
         self.__size -= 1
         return current.value
+
+
+    def clear(self):
+        self.__first = None
+        self.__last = None
+        self.__size = 0
+
+
+    def copy (self):
+        new_list = LinkedList()
+        for item in self.items():
+            new_list.append(item)
+        return new_list
 
 
     def isEmpty(self):
