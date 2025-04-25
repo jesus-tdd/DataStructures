@@ -1,5 +1,3 @@
-from ast import Index
-
 from linkedListItem import LinkedListItem as Item
 
 class LinkedList:
