@@ -1,8 +1,8 @@
 class LinkedListItem:
-    def __init__(self, value):
+    def __init__(self, value, prev_item=None, next_item=None):
         self.value = value
-        self.next = None
-        self.prev = None
+        self.next = next_item
+        self.prev = prev_item
 
 
     def hasNext(self):
