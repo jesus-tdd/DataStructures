@@ -41,16 +41,15 @@ class LinkedList:
                 current = current.prev
 
 
-    def append(self, item):
-        new_item = Item(item)
+    def append(self, item) -> None:
         if self.isEmpty():
-            self.__first = new_item
-        else:
-            new_item.prev = self.__last
-            self.__last.next = new_item
-        self.__last = new_item
+            self.__first = Item(item)
+            self.__last = self.__first
+            self.__size += 1
+            return
+        self.__last = Item(item, prev_item=self.__last)
+        self.__last.prev.next = self.__last
         self.__size += 1
-        return True
 
     def pop(self, index=None):
         if self.isEmpty():
@@ -60,7 +59,7 @@ class LinkedList:
             index = len(self)-1
 
         if index >= len(self):
-            raise IndexError("Index out of bound.")
+            raise IndexError("Index out of bounds.")
 
         if index == 0:
             current = self.__first
@@ -85,11 +84,28 @@ class LinkedList:
         return current.value
 
 
+    def insert(self, index, item) -> None:
+        if index > len(self):
+            raise IndexError("Index out of bounds.")
+
+        if index == 0:
+            self.__first = Item(item, next_item=self.__first)
+            self.__size += 1
+            return
+
+
+        current = self.__first
+        for i in range(index-1):
+            current = current.next
+
+        new_item = Item(item, current, current.next)
+        current.next = new_item
+        if new_item.hasNext():
+            new_item.next.prev = new_item
+        self.__size += 1
+
+
     # TODO =========================
-    def insert(self, index, item):
-        pass
-
-
     def remove(self, item):
         pass
 
@@ -152,10 +168,5 @@ class LinkedList:
 if __name__ == "__main__":
     linked_list = LinkedList(1, 2, 3, 2, 7, 1)
     print(linked_list)
-    linked_list.append(23)
+    linked_list.insert(len(linked_list), 20)
     print(linked_list)
-    linked_list.pop()
-    print(linked_list)
-    linked_list.reverse()
-    print(linked_list)
-    print(len(linked_list))
