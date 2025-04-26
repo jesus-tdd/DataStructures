@@ -134,7 +134,7 @@ class LinkedList:
 
         return self.__remove_item(current)
 
-    def extend(self, iterable):
+    def extend(self, iterable) -> None:
         for item in iterable:
             self.append(item)
 
@@ -166,14 +166,14 @@ class LinkedList:
         pass
 
 
-    def reverse(self):
+    def reverse(self) -> None:
         items = [item for item in self.items(True)]
         self.clear()
         for item in items:
             self.append(item)
 
 
-    def clear(self):
+    def clear(self) -> None:
         self.__first = None
         self.__last = None
         self.__size = 0
@@ -186,7 +186,7 @@ class LinkedList:
         return new_list
 
 
-    def isEmpty(self):
+    def isEmpty(self) -> bool:
         return len(self) == 0
 
 
