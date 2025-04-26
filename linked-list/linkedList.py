@@ -1,4 +1,5 @@
 from ast import Index
+from operator import index
 
 from linkedListItem import LinkedListItem as Item
 
@@ -128,15 +129,26 @@ class LinkedList:
 
         return self.__remove_item(current)
 
-    # TODO =========================
     def extend(self, iterable):
-        pass
+        for item in iterable:
+            self.append(item)
 
 
     def index(self, item, start=0, end=None):
-        pass
+        i = 0
+        if end is None:
+            end = len(self)
+
+        for element in self.items():
+            if start <= i < end:
+                if element == item:
+                    return i
+            i += 1
+
+        raise ValueError(f"Item '{item}' not found.")
 
 
+    # TODO =========================
     def count(self, item):
         pass
 
@@ -190,5 +202,5 @@ if __name__ == "__main__":
     linked_list.insert(len(linked_list), 20)
     linked_list.insert(len(linked_list), 30)
     print(linked_list)
-    linked_list.remove(20)
+    linked_list.pop(linked_list.index(20))
     print(linked_list)
