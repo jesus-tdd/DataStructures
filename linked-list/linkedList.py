@@ -1,6 +1,3 @@
-from ast import Index
-from operator import index
-
 from linkedListItem import LinkedListItem as Item
 
 class LinkedList:
@@ -13,15 +10,15 @@ class LinkedList:
                 self.append(item)
 
 
-    def get(self, index):
+    def get(self, element_index):
         if self.isEmpty():
             raise IndexError("List is empty.")
 
-        if index >= len(self):
+        if element_index >= len(self):
             raise IndexError("Index out of bounds.")
 
         current = self.__first
-        for i in range(index):
+        for i in range(element_index):
             current = current.next
         return current.value
 
@@ -134,7 +131,7 @@ class LinkedList:
             self.append(item)
 
 
-    def index(self, item, start=0, end=None):
+    def index(self, item, start=0, end=None) -> int:
         i = 0
         if end is None:
             end = len(self)
@@ -148,14 +145,17 @@ class LinkedList:
         raise ValueError(f"Item '{item}' not found.")
 
 
-    # TODO =========================
-    def count(self, item):
-        pass
+    def count(self, item) -> int :
+        counter = 0
+        for element in self.items():
+            if item == element:
+                counter += 1
+        return counter
 
 
+    # TODO
     def sort(self, key=None, reverse=False):
         pass
-    # TODO =========================
 
 
     def reverse(self):
@@ -197,10 +197,7 @@ class LinkedList:
         return string
 
 if __name__ == "__main__":
-    linked_list = LinkedList(1, 2, 3, 2, 7, 1)
+    linked_list = LinkedList(1, 2, 3, 2, 7, 1, 1, 1)
     print(linked_list)
-    linked_list.insert(len(linked_list), 20)
-    linked_list.insert(len(linked_list), 30)
-    print(linked_list)
-    linked_list.pop(linked_list.index(20))
-    print(linked_list)
+
+    print(linked_list.count(7))
