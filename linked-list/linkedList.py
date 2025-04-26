@@ -1,3 +1,5 @@
+from ast import Index
+
 from linkedListItem import LinkedListItem as Item
 
 class LinkedList:
@@ -41,6 +43,28 @@ class LinkedList:
                 current = current.prev
 
 
+    def __remove_item(self, item:Item):
+        self.__size -= 1
+        if not item.hasPrev() and not item.hasNext():
+            self.__first = None
+            self.__last = None
+            return item.value
+
+        if not item.hasPrev():
+            self.__first = item.next
+            item.next.prev = None
+            return item.value
+
+        if not item.hasNext():
+            self.__last = item.prev
+            item.prev.next = None
+            return item.value
+
+        item.prev.next = item.next
+        item.next.prev = item.prev
+        return item.value
+
+
     def append(self, item) -> None:
         if self.isEmpty():
             self.__first = Item(item)
@@ -61,27 +85,10 @@ class LinkedList:
         if index >= len(self):
             raise IndexError("Index out of bounds.")
 
-        if index == 0:
-            current = self.__first
-            self.__first = self.__first.next
-            self.__first.prev = None
-            self.__size -= 1
-            return current.value
-
-        if index == len(self)-1:
-            current = self.__last
-            self.__last = self.__last.prev
-            self.__last.next = None
-            self.__size -= 1
-            return current.value
-
         current = self.__first
         for i in range(0, index):
             current = current.next
-        current.prev.next = current.next
-        current.next.prev = current.prev
-        self.__size -= 1
-        return current.value
+        return self.__remove_item(current)
 
 
     def insert(self, index, item) -> None:
@@ -90,6 +97,10 @@ class LinkedList:
 
         if index == 0:
             self.__first = Item(item, next_item=self.__first)
+            if not self.__first.hasNext():
+                self.__last = self.__first
+            else:
+                self.__first.next.prev = self.__first
             self.__size += 1
             return
 
@@ -105,11 +116,19 @@ class LinkedList:
         self.__size += 1
 
 
-    # TODO =========================
     def remove(self, item):
-        pass
+        current = self.__first
+        if current is None:
+            raise ValueError("There is not such item.")
 
+        while current.value != item:
+            if not current.hasNext():
+                raise ValueError("There is not such item.")
+            current = current.next
 
+        return self.__remove_item(current)
+
+    # TODO =========================
     def extend(self, iterable):
         pass
 
@@ -169,4 +188,7 @@ if __name__ == "__main__":
     linked_list = LinkedList(1, 2, 3, 2, 7, 1)
     print(linked_list)
     linked_list.insert(len(linked_list), 20)
+    linked_list.insert(len(linked_list), 30)
+    print(linked_list)
+    linked_list.remove(20)
     print(linked_list)
