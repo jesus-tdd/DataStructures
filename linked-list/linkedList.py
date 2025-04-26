@@ -41,8 +41,32 @@ class LinkedList:
                 current = current.prev
 
 
+    def __insert_item(self, item:Item) -> None:
+        self.__size += 1
+
+        if not item.hasPrev() and not item.hasNext():
+            self.__first = item
+            self.__last = item
+            return
+
+        if not item.hasPrev():
+            self.__first = item
+            item.next.prev = item
+            return
+
+        if not item.hasNext():
+            self.__last = item
+            item.prev.next = item
+            return
+
+        item.prev.next = item
+        item.next.prev = item
+        return
+
+
     def __remove_item(self, item:Item):
         self.__size -= 1
+
         if not item.hasPrev() and not item.hasNext():
             self.__first = None
             self.__last = None
@@ -65,13 +89,9 @@ class LinkedList:
 
     def append(self, item) -> None:
         if self.isEmpty():
-            self.__first = Item(item)
-            self.__last = self.__first
-            self.__size += 1
-            return
-        self.__last = Item(item, prev_item=self.__last)
-        self.__last.prev.next = self.__last
-        self.__size += 1
+            return self.__insert_item(Item(item))
+        return self.__insert_item(Item(item, prev_item=self.__last))
+
 
     def pop(self, index=None):
         if self.isEmpty():
@@ -94,24 +114,12 @@ class LinkedList:
             raise IndexError("Index out of bounds.")
 
         if index == 0:
-            self.__first = Item(item, next_item=self.__first)
-            if not self.__first.hasNext():
-                self.__last = self.__first
-            else:
-                self.__first.next.prev = self.__first
-            self.__size += 1
-            return
-
+            return self.__insert_item(Item(item, next_item=self.__first))
 
         current = self.__first
         for i in range(index-1):
             current = current.next
-
-        new_item = Item(item, current, current.next)
-        current.next = new_item
-        if new_item.hasNext():
-            new_item.next.prev = new_item
-        self.__size += 1
+        return self.__insert_item(Item(item, current, current.next))
 
 
     def remove(self, item):
@@ -197,7 +205,13 @@ class LinkedList:
         return string
 
 if __name__ == "__main__":
-    linked_list = LinkedList(1, 2, 3, 2, 7, 1, 1, 1)
+    linked_list = LinkedList(1, 2, 3, 2, 7, 1)
     print(linked_list)
-
-    print(linked_list.count(7))
+    linked_list.append(20)
+    print(linked_list)
+    linked_list.insert(0,1)
+    print(linked_list)
+    linked_list.insert(5, 30)
+    print(linked_list)
+    linked_list.insert(len(linked_list), 40)
+    print(linked_list)
