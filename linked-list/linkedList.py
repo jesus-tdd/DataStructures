@@ -87,6 +87,10 @@ class LinkedList:
         return item.value
 
 
+    def __swap_items(self, this: Item, other:Item):
+        this.value, other.value = other.value, this.value
+
+
     def append(self, item) -> None:
         if self.isEmpty():
             return self.__insert_item(Item(item))
@@ -161,9 +165,23 @@ class LinkedList:
         return counter
 
 
-    # TODO
-    def sort(self, key=None, reverse=False):
-        pass
+    def sort(self, *, key=None, reverse=False):
+        # TODO implement key and reverse
+        if self.isEmpty() or len(self) == 1:
+            return
+
+        is_sorted = False
+        while not is_sorted:
+            is_sorted = True
+
+            prev = self.__first
+            current = prev.next
+            while current is not None:
+                if current < prev:
+                    is_sorted = False
+                    self.__swap_items(current, prev)
+                prev = current
+                current = current.next
 
 
     def reverse(self) -> None:
@@ -204,6 +222,8 @@ class LinkedList:
         string = string[:-2] + "]"
         return string
 
+
+
 if __name__ == "__main__":
     linked_list = LinkedList(1, 2, 3, 2, 7, 1)
     print(linked_list)
@@ -214,4 +234,7 @@ if __name__ == "__main__":
     linked_list.insert(5, 30)
     print(linked_list)
     linked_list.insert(len(linked_list), 40)
+    linked_list.append(1)
+    print(linked_list)
+    linked_list.sort()
     print(linked_list)
