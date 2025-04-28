@@ -5,12 +5,18 @@ class LinkedListItem:
         self.prev = prev_item
 
 
-    def hasNext(self):
+    def hasNext(self) -> bool:
         return self.next is not None
 
-    def hasPrev(self):
+    def hasPrev(self) -> bool:
         return self.prev is not None
 
 
-    def __str__(self):
+    def __lt__(self, other) -> bool:
+        if not isinstance(other, LinkedListItem):
+            return False
+        return self.value < other.value
+
+
+    def __str__(self) -> str:
         return str(self.value)
